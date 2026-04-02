@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main 
+
+permissions:
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      # 1️⃣ Check out repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Rename your HTML file to index.html for deployment
+      - name: Prepare index.html
+        run: cp text2speech.html index.html
+
+      # 3️⃣ Upload artifact for GitHub Pages
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      # 4️⃣ Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
